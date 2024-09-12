@@ -19,6 +19,7 @@ export const login = async (req, res) => {
 };
 
 export const register = async (req, res) => {
+  console.log('ingresa a register');
   try {
     const { nombre, apellido, email, rol, password } = req.body;
     const userfound = await UserModel.findOne({ email });
