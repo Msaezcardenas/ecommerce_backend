@@ -14,7 +14,11 @@ export const login = async (req, res) => {
     const { password, email } = req.body;
     const userFound = await UserModel.findOne({ email }).lean();
     if (isValidPassword(userFound, password)) {
-      const token = generadorToken({ email: userFound.email, nombre: userFound.first_name });
+      const token = generadorToken({
+        email: userFound.email,
+        nombre: userFound.first_name,
+        role: userFound.role,
+      });
       return res
         .status(200)
         .cookie('currentUser', token, { maxAge: 60000, signed: true, httpOnly: true })

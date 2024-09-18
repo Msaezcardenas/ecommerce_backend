@@ -34,7 +34,6 @@ const initPassport = () => {
       },
       async (req, username, password, done) => {
         try {
-          console.log('ingresa a email');
           const { nombre, apellido, email, edad } = req.body;
           const userFound = await UserModel.findOne({ email: username });
 
