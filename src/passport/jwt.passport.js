@@ -14,7 +14,6 @@ const initializePassport = () => {
       },
       (jwt_payload, done) => {
         try {
-          console.log('PASSPORT---->', jwt_payload);
           done(null, jwt_payload);
         } catch (e) {
           return done(e);

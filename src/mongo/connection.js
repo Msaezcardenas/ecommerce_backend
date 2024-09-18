@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 export const connectionDB = async () => {
-  console.log(process.env.MONGO_STRING);
   try {
     await mongoose.connect(process.env.MONGO_STRING, { dbName: process.env.USE_DB });
     console.log('BBDD conectada');
