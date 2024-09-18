@@ -3,11 +3,11 @@ import mongoose, { Schema } from 'mongoose';
 const userCollection = 'users';
 
 const userSchema = new Schema({
-  nombre: {
+  first_name: {
     type: String,
     require: true,
   },
-  apellido: {
+  last_name: {
     type: String,
     require: true,
   },
@@ -16,13 +16,21 @@ const userSchema = new Schema({
     require: true,
     unique: true,
   },
-  edad: {
+  age: {
     type: Number,
     require: true,
   },
   password: {
     type: String,
     require: true,
+  },
+  cart: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'carts',
+  },
+  role: {
+    type: String,
+    default: 'user',
   },
 });
 

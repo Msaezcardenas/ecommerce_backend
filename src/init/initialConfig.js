@@ -5,10 +5,15 @@ import { __dirname } from '../utils.js';
 import { connectionDB } from '../mongo/connection.js';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import passport from 'passport';
+import initializePassport from '../passport/jwt.passport.js';
 
 export const AppInit = (app) => {
   dotenv.config();
   connectionDB();
+  initializePassport();
+  passport.initialize();
+
   const hbs = create();
   app.use(cookieParser(process.env.SECRET));
   app.engine('handlebars', hbs.engine);
