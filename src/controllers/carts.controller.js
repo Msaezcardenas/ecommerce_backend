@@ -27,3 +27,14 @@ export const getCartById = async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 };
+
+export const createCart = async (req, res) => {
+  try {
+    const newCart = await CartModel.create({
+      products: [],
+    });
+    res.status(201).json({ data: newCart });
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+};
