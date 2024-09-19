@@ -30,7 +30,6 @@ export const updateCart = async (req, res) => {
 
   const cartFinded = await CartModel.findById(cid);
   if (!cartFinded) res.status(404).json({ message: 'error' });
-  console.log({ cartFinded });
 
   const indexProd = cartFinded.products.findIndex((prod) => prod.product.toString() === pid);
   if (indexProd === -1) {
