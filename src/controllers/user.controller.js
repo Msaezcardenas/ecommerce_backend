@@ -19,6 +19,8 @@ export const login = async (req, res) => {
         nombre: userFound.first_name,
         role: userFound.role,
       });
+      console.log(token);
+
       return res
         .status(200)
         .cookie('currentUser', token, { maxAge: 60000, signed: true, httpOnly: true })

@@ -35,3 +35,7 @@ export const decodeToken = (req, res, next) => {
     next();
   });
 };
+
+export const createResponse = (res, statusCode, data) => {
+  return res.status(statusCode).json({ data });
+};

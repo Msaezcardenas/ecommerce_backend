@@ -19,9 +19,10 @@ export const createCart = async (req, res) => {
     const newCart = await CartModel.create({
       products: [],
     });
+    console.log(newCart);
     res.status(201).json({ data: newCart });
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    res.status(400).send({ error: error.message, newCart });
   }
 };
 
