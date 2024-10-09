@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import { login, register } from '../controllers/user.controller.js';
-import { invokePassport } from '../middlewares/handleErrors.js';
-import { handleAuth } from '../middlewares/handleAuth.js';
+// import { Router } from 'express';
+// import { login, register } from '../controllers/user.controller.js';
+// import { invokePassport } from '../middlewares/handleErrors.js';
+// import { handleAuth } from '../middlewares/handleAuth.js';
 import UserController from '../controllers/user.controller.js';
 import CustomRouter from './customRouter.js';
 const userController = new UserController();
@@ -32,7 +32,7 @@ export default class UserRouterCustom extends CustomRouter {
     this.post('/register', ['PUBLIC'], userController.register);
     this.get('/:id', ['ADMIN'], userController.getById);
     this.get('/', ['ADMIN'], userController.getAll);
-    this.post('/', ['ADMIN'], userController.create);
-    this.put('/:id', ['ADMIN'], userController.update);
+    this.post('/', ['PUBLIC'], userController.create);
+    this.put('/:id', ['PUBLIC'], userController.update);
   }
 }

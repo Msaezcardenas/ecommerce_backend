@@ -1,6 +1,7 @@
-import { generadorToken, isValidPassword } from '../utils.js';
+import { generadorToken, isValidPassword, createHash } from '../utils.js';
 import UserAccessMongo from '../models/user.dao.js';
 import Services from './services.js';
+import userSchema from '../validators/userValidator.js';
 
 const userDAO = new UserAccessMongo();
 
@@ -11,8 +12,11 @@ export default class UserService extends Services {
 
   async register(user) {
     try {
-      const { email, password } = user;
+      const { email, password, first_name, last_name, age, role } = user;
+      const { error } = userSchema.validate(user);
+      if (error) throw new Error(error);
       const existUser = await this.dao.getByEmail(email); // utiliza una funcion que se conecta a la base de datos
+      if (existUser) throw new Error('usuario ya existe');
       if (!existUser) {
         const newUser = await this.dao.create({
           ...user,
@@ -20,7 +24,6 @@ export default class UserService extends Services {
         });
         return newUser;
       }
-      return null;
     } catch (error) {
       throw new Error(error);
     }
@@ -31,9 +34,9 @@ export default class UserService extends Services {
       const { email, password } = user;
       const userExist = await this.dao.getByEmail(email);
       if (!userExist) return null;
-      const passValid = isValidPassword(password, userExist);
-      if (!passValid) return null;
-      if (userExist && passValid) return generadorToken(userExist);
+      const passValid = isValidPassword(userExist, password);
+      if (!passValid) throw new Error('constraseña incorrecta');
+      if (userExist && passValid) return generadorToken(userExist.toObject());
     } catch (error) {
       throw new Error(error);
     }
