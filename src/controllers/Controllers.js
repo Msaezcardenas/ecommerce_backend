@@ -1,13 +1,15 @@
-import { createResponse } from "../utils.js";
-
+import { createResponse } from '../utils.js';
 
 export default class Controllers {
-  constructor(service) { // recibe el servicio del hijo
+  constructor(service) {
+    // recibe el servicio del hijo
     this.service = service;
   }
 
-  getAll = async(req, res, next) =>{
+  getAll = async (req, res, next) => {
     try {
+      console.log('INGRESA A GET ALL');
+
       const data = await this.service.getAll();
       createResponse(res, 200, data);
     } catch (error) {
@@ -15,18 +17,18 @@ export default class Controllers {
     }
   };
 
-  getById = async(req, res, next) =>{
+  getById = async (req, res, next) => {
     try {
       const { id } = req.params;
       const data = await this.service.getById(id);
-      if(!data) createResponse(res, 404, data)
+      if (!data) createResponse(res, 404, data);
       else createResponse(res, 200, data);
     } catch (error) {
       next(error);
     }
   };
 
-  create = async(req, res, next) => {
+  create = async (req, res, next) => {
     try {
       const data = await this.service.create(req.body);
       createResponse(res, 200, data);
@@ -35,23 +37,23 @@ export default class Controllers {
     }
   };
 
-  update = async(req, res, next) => {
+  update = async (req, res, next) => {
     try {
       const { id } = req.params;
       const data = await this.service.update(id, req.body);
-      if(!data) createResponse(res, 404, data)
-        else createResponse(res, 200, data);
+      if (!data) createResponse(res, 404, data);
+      else createResponse(res, 200, data);
     } catch (error) {
       next(error);
     }
   };
 
-  delete = async(req, res, next) => {
+  delete = async (req, res, next) => {
     try {
       const { id } = req.params;
       const data = await this.service.delete(id);
-      if(!data) createResponse(res, 404, data)
-        else createResponse(res, 200, data);
+      if (!data) createResponse(res, 404, data);
+      else createResponse(res, 200, data);
     } catch (error) {
       next(error);
     }

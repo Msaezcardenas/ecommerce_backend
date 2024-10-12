@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { invokePassport } from '../middlewares/handleErrors.js';
-import { getProducts } from '../controllers/products.controller.js';
+// import { getProducts } from '../controllers/products.controller.js';
 
 const app = Router();
 
@@ -29,6 +29,6 @@ app.get('/perfil', invokePassport('jwt'), (req, res) => {
 //   res.render('products', { products });
 // });
 
-app.get('/products', getProducts);
+// app.get('/products', getProducts);
 
 export default app;

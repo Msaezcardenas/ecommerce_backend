@@ -63,7 +63,6 @@ export default class CustomRouter {
     res.errorServer = (error) => res.status(500).json({ status: 'server error', error });
     res.notFound = () =>
       res.status(404).json({ status: 'not found', error: 'Recurso no encontrado' });
-    // otras respuestas genericas.
     next();
   }
 
@@ -74,14 +73,15 @@ export default class CustomRouter {
       const reqJWT = req.headers.authorization; // si me da un jwt es porque se logueo o almenos estuvo loqueado
       if (!reqJWT) return res.status(400).send({ status: 'error', message: 'no logueado' });
       let userPayload = null;
+      const token = reqJWT.split(' ')[1];
       try {
-        userPayload = jwt.verify(reqJWT, process.env.SECRET);
+        userPayload = jwt.verify(token, process.env.SECRET);
       } catch (e) {
         return res.status(400).send({ status: 'error', message: e });
       }
       if (!userPayload)
         return res.status(400).send({ status: 'error', message: 'error en el token' });
-      if (!policies.includes(userPayload.rol.toUpperCase()))
+      if (!policies.includes(userPayload.role.toUpperCase()))
         return res.status(403).send({ status: 'error', message: 'no estas autorizado' });
       req.user = userPayload;
       next();

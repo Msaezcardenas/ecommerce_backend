@@ -12,7 +12,7 @@ export default class UserService extends Services {
 
   async register(user) {
     try {
-      const { email, password, first_name, last_name, age, role } = user;
+      const { email, password } = user;
       const { error } = userSchema.validate(user);
       if (error) throw new Error(error);
       const existUser = await this.dao.getByEmail(email); // utiliza una funcion que se conecta a la base de datos
