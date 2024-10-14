@@ -32,7 +32,7 @@ export default class CustomRouter {
   }
 
   put(path, policies, ...cb) {
-    this.router.post(
+    this.router.put(
       path,
       this.handlePolicies(policies),
       this.customResponses,
@@ -40,7 +40,7 @@ export default class CustomRouter {
     );
   }
   delete(path, policies, ...cb) {
-    this.router.post(
+    this.router.delete(
       path,
       this.handlePolicies(policies),
       this.customResponses,
@@ -74,8 +74,10 @@ export default class CustomRouter {
       if (!reqJWT) return res.status(400).send({ status: 'error', message: 'no logueado' });
       let userPayload = null;
       const token = reqJWT.split(' ')[1];
+
       try {
         userPayload = jwt.verify(token, process.env.SECRET);
+        console.log({ userPayload });
       } catch (e) {
         return res.status(400).send({ status: 'error', message: e });
       }

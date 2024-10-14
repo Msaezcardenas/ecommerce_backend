@@ -28,6 +28,8 @@ export default class Services {
   }
 
   async update(id, obj) {
+    console.log('ingresa a update', id);
+
     try {
       return await this.dao.update(id, obj);
     } catch (error) {
