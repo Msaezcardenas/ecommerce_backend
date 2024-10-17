@@ -2,6 +2,9 @@ import UserController from '../controllers/user.controller.js';
 import CustomRouter from './customRouter.js';
 const userController = new UserController();
 
+// 1.- definimos las rutas que el cliente (frontend o API client)
+//     puede utilizar para interactuar con el backend.
+
 export default class UserRouterCustom extends CustomRouter {
   init() {
     this.post('/login', ['PUBLIC'], userController.login);

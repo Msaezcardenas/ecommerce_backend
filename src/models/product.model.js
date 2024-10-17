@@ -11,5 +11,3 @@ const productSchema = new Schema({
 });
 
 export const ProductModel = model('products', productSchema);
-
-//export const CartModel = model('carts', cartSchema);

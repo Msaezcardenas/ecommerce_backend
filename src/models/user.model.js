@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
+// 5.- Este modelo define la estructura del usuario en la base de datos.
+
 const userCollection = 'users';
 
 const userSchema = new Schema({

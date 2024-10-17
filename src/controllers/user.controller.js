@@ -1,10 +1,13 @@
 import UserService from '../services/user.services.js';
 import { createResponse } from '../utils.js';
-import Controllers from './Controllers.js';
+import BaseController from './baseController.js';
 
 const userService = new UserService();
 
-export default class UserController extends Controllers {
+//  2.- El controlador maneja las solicitudes HTTP relacionadas con la
+//      creación de usuarios y delega la lógica de negocio al servicio
+
+export default class UserController extends BaseController {
   constructor() {
     super(userService); // constructor(userService) del padre
   }

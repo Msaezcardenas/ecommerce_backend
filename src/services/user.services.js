@@ -5,6 +5,10 @@ import userSchema from '../validators/userValidator.js';
 
 const userDAO = new UserAccessMongo();
 
+// 3.- La capa de servicio contiene la lógica de negocio.
+//     Aquí podemos agregar más validaciones, por ejemplo,
+//     verificar si el usuario ya existe antes de crearlo.
+
 export default class UserService extends Services {
   constructor() {
     super(userDAO);
