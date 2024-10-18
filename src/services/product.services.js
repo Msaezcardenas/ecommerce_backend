@@ -1,10 +1,10 @@
 import Services from './services.js';
-import ProductAccessMongo from '../models/product.dao.js';
+import ProductRepository from '../repositories/product.repository.js';
 
-const productDAO = new ProductAccessMongo();
+const productRepository = new ProductRepository();
 
 export default class ProductService extends Services {
   constructor() {
-    super(productDAO);
+    super(productRepository);
   }
 }

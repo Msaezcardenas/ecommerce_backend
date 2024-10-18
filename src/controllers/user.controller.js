@@ -9,7 +9,7 @@ const userService = new UserService();
 
 export default class UserController extends BaseController {
   constructor() {
-    super(userService); // constructor(userService) del padre
+    super(userService);
   }
 
   register = async (req, res, next) => {
@@ -22,6 +22,8 @@ export default class UserController extends BaseController {
   };
 
   login = async (req, res, next) => {
+    console.log('ingresa a login controller');
+
     try {
       const token = await this.service.login(req.body);
       !token ? createResponse(res, 404, token) : createResponse(res, 200, token);

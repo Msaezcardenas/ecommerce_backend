@@ -2,14 +2,11 @@ import { createResponse } from '../utils.js';
 
 export default class BaseController {
   constructor(service) {
-    // recibe el servicio del hijo
     this.service = service;
   }
 
   getAll = async (req, res, next) => {
     try {
-      console.log('INGRESA A GET ALL');
-
       const data = await this.service.getAll();
       createResponse(res, 200, data);
     } catch (error) {

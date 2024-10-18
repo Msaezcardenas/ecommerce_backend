@@ -1,11 +1,11 @@
 import BaseRepository from './base.repository.js';
-import { UserModel } from '../models/user.model.js';
+import { CartModel } from '../models/cart.model.js';
 
 // 4.- Este repositorio maneja las operaciones CRUD relacionadas
 //     con los usuarios y encapsula el acceso directo a la base de datos.
 
-export default class UserRepository extends BaseRepository {
+export default class CartRepostory extends BaseRepository {
   constructor() {
-    super(UserModel);
+    super(CartModel);
   }
 }

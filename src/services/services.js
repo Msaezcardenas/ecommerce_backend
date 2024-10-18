@@ -1,11 +1,11 @@
 export default class Services {
-  constructor(dao) {
-    this.dao = dao;
+  constructor(Repository) {
+    this.repository = Repository;
   }
 
   async getAll() {
     try {
-      return await this.dao.getAll();
+      return await this.repository.getAll();
     } catch (error) {
       throw new Error(error);
     }
@@ -13,7 +13,7 @@ export default class Services {
 
   async getById(id) {
     try {
-      return await this.dao.getById(id);
+      return await this.repository.getById(id);
     } catch (error) {
       throw new Error(error);
     }
@@ -21,7 +21,7 @@ export default class Services {
 
   async create(obj) {
     try {
-      return await this.dao.create(obj);
+      return await this.repository.create(obj);
     } catch (error) {
       throw new Error(error);
     }
@@ -31,7 +31,7 @@ export default class Services {
     console.log('ingresa a update', id);
 
     try {
-      return await this.dao.update(id, obj);
+      return await this.repository.update(id, obj).populate('products.product');
     } catch (error) {
       throw new Error(error);
     }
@@ -39,7 +39,7 @@ export default class Services {
 
   async delete(id) {
     try {
-      return await this.dao.delete(id);
+      return await this.repository.delete(id);
     } catch (error) {
       throw new Error(error);
     }

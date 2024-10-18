@@ -77,7 +77,6 @@ export default class CustomRouter {
 
       try {
         userPayload = jwt.verify(token, process.env.SECRET);
-        console.log({ userPayload });
       } catch (e) {
         return res.status(400).send({ status: 'error', message: e });
       }

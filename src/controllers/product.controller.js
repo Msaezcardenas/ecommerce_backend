@@ -1,5 +1,5 @@
 import ProductService from '../services/product.services.js';
-import BaseControllers from './baseController.js';
+import BaseController from './baseController.js';
 
 const productService = new ProductService();
 

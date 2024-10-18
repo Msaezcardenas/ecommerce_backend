@@ -1,9 +1,10 @@
 import { generadorToken, isValidPassword, createHash } from '../utils.js';
-import UserAccessMongo from '../models/user.dao.js';
+import { UserModel } from '../models/user.model.js';
 import Services from './services.js';
 import userSchema from '../validators/userValidator.js';
+import UserRepository from '../repositories/user.repository.js';
 
-const userDAO = new UserAccessMongo();
+const userRepository = new UserRepository();
 
 // 3.- La capa de servicio contiene la lógica de negocio.
 //     Aquí podemos agregar más validaciones, por ejemplo,
@@ -11,7 +12,7 @@ const userDAO = new UserAccessMongo();
 
 export default class UserService extends Services {
   constructor() {
-    super(userDAO);
+    super(userRepository);
   }
 
   async register(user) {
@@ -19,10 +20,10 @@ export default class UserService extends Services {
       const { email, password } = user;
       const { error } = userSchema.validate(user);
       if (error) throw new Error(error);
-      const existUser = await this.dao.getByEmail(email); // utiliza una funcion que se conecta a la base de datos
+      const existUser = await this.repository.getByEmail(email); // utiliza una funcion que se conecta a la base de datos
       if (existUser) throw new Error('usuario ya existe');
       if (!existUser) {
-        const newUser = await this.dao.create({
+        const newUser = await this.repository.create({
           ...user,
           password: createHash(password),
         });
@@ -34,9 +35,11 @@ export default class UserService extends Services {
   }
 
   async login(user) {
+    console.log('ingresa a login service');
+
     try {
       const { email, password } = user;
-      const userExist = await this.dao.getByEmail(email);
+      const userExist = await this.repository.getByEmail(email);
       if (!userExist) return null;
       const passValid = isValidPassword(userExist, password);
       if (!passValid) throw new Error('constraseña incorrecta');
