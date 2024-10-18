@@ -64,6 +64,8 @@ export default class CartController extends BaseController {
       console.log('---------->', req.params);
 
       const data = await this.service.updateCart(req.params);
+      console.log('DATA', data);
+
       !data ? createResponse(res, 404, data) : createResponse(res, 200, data);
     } catch (error) {
       next(error);
