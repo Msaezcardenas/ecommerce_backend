@@ -18,5 +18,6 @@ export default class CartRouteCustom extends CustomRouter {
     this.get('/', ['PUBLIC'], cartController.getAll);
     this.post('/', ['USER'], cartController.addProductToCart);
     this.put('/:cid/product/:pid', ['PUBLIC'], cartController.updateCart);
+    this.post('/:cid/purchase', ['PUBLIC'], cartController.purchase);
   }
 }

@@ -29,8 +29,11 @@ export default class CartRepostory extends BaseRepository {
     try {
       return await this.model
         .findByIdAndUpdate(id, cartFinded, { new: true })
-        .populate('products.product'); // Aquí se hace el populate
+        .populate('products.product')
+        .populate('user');
     } catch (error) {
+      console.log(error);
+
       throw new Error(error);
     }
   }

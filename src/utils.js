@@ -2,6 +2,7 @@ import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { v4 } from 'uuid';
 
 export const createHash = (pass) => bcrypt.hashSync(pass, bcrypt.genSaltSync(10)); // $salt.hash
 
@@ -20,11 +21,7 @@ export const getJWTCookie = (req) => {
 };
 
 export const generadorToken = (user) => {
-  console.log('GENERADOR----->', process.env.SECRET);
-
   const token = jwt.sign(user, process.env.SECRET, { expiresIn: '24h' });
-  console.log(token);
-
   return token;
 };
 
@@ -42,4 +39,8 @@ export const decodeToken = (req, res, next) => {
 
 export const createResponse = (res, statusCode, data) => {
   return res.status(statusCode).json({ data });
+};
+
+export const generateUniqueCode = () => {
+  return v4();
 };

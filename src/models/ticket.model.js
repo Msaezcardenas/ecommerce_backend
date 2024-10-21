@@ -7,4 +7,4 @@ const ticketSchema = new Schema({
   purchaser: String, // correo del usuario asociado al carrito
 });
 
-export const ProductModel = model('ticket', ticketSchema);
+export const TicketModel = model('ticket', ticketSchema);
