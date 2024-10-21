@@ -59,6 +59,15 @@ export default class CartController extends BaseController {
     super(cartService);
   }
 
+  addProductToCart = async (req, res, next) => {
+    try {
+      const data = await this.service.addProductToCart(req.body);
+      !data ? createResponse(res, 404, data) : createResponse(res, 200, data);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   updateCart = async (req, res, next) => {
     try {
       console.log('---------->', req.params);

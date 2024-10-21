@@ -14,9 +14,9 @@ const cartController = new CartController();
 
 export default class CartRouteCustom extends CustomRouter {
   init() {
-    this.post('/', ['PUBLIC'], cartController.create);
     this.get('/:id', ['PUBLIC'], cartController.getById);
     this.get('/', ['PUBLIC'], cartController.getAll);
+    this.post('/', ['USER'], cartController.addProductToCart);
     this.put('/:cid/product/:pid', ['PUBLIC'], cartController.updateCart);
   }
 }

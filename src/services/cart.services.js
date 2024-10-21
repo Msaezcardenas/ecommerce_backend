@@ -8,14 +8,32 @@ export default class CartService extends Services {
     super(cartRepository);
   }
 
-  // Método para obtener el carrito con productos poblados
-  // async getCartWithProducts(cartId) {
-  //   try {
-  //     return await this.repository.getPopulatedCartById(cartId);
-  //   } catch (error) {
-  //     throw new Error(error);
-  //   }
-  // }
+  async addProductToCart(params) {
+    const { id_user, id_product, quantity } = params;
+    // Obtener el carrito del usuario (si no tiene, se crea uno)
+    console.log({ id_user });
+
+    let cart = await this.repository.findCartByUserId(id_user);
+
+    if (!cart) {
+      cart = await this.repository.create({ user: id_user, products: [] });
+    }
+
+    // Verificar si el producto ya está en el carrito
+    const productIndex = cart.products.findIndex((p) => p.product.toString() === id_product);
+
+    if (productIndex > -1) {
+      // Si el producto ya existe en el carrito, aumentar la cantidad
+      cart.products[productIndex].quantity += quantity;
+    } else {
+      // Si el producto no está en el carrito, agregarlo
+      cart.products.push({ product: id_product, quantity });
+    }
+
+    console.log(cart);
+
+    return await this.repository.updateCart(cart._id, { products: cart.products });
+  }
 
   async updateCart(req, res) {
     console.log('------//', req);

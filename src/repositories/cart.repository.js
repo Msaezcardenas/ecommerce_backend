@@ -9,17 +9,21 @@ export default class CartRepostory extends BaseRepository {
     super(CartModel);
   }
 
-  // async getById(id) {
-  //   try {
-  //     return await this.model.findById(id);
-  //   } catch (error) {
-  //     throw new Error(error);
-  //   }
-  // }
+  async findCartByUserId(id) {
+    try {
+      return await this.model.findOne({ user: id });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 
-  //   const cartUpdated = await CartModel.findByIdAndUpdate(cid, cartFinded, {
-  //     new: true,
-  //   }).populate('products.product');
+  async updateCart(cartId, update) {
+    try {
+      return this.model.findByIdAndUpdate(cartId, update, { new: true });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 
   async getPopulatedCartById(id, cartFinded) {
     try {
