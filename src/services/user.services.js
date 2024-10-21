@@ -35,8 +35,6 @@ export default class UserService extends Services {
   }
 
   async login(user) {
-    console.log('ingresa a login service');
-
     try {
       const { email, password } = user;
       const userExist = await this.repository.getByEmail(email);
@@ -44,6 +42,16 @@ export default class UserService extends Services {
       const passValid = isValidPassword(userExist, password);
       if (!passValid) throw new Error('constraseña incorrecta');
       if (userExist && passValid) return generadorToken(userExist.toObject());
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getCurrentUser(params) {
+    try {
+      const { id_user } = params;
+      const user = await this.repository.getById(id_user);
+      return user;
     } catch (error) {
       throw new Error(error);
     }

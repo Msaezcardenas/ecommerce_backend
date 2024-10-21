@@ -13,6 +13,8 @@ export default class Services {
 
   async getById(id) {
     try {
+      console.log('entra a get by id');
+
       return await this.repository.getById(id);
     } catch (error) {
       throw new Error(error);
@@ -21,6 +23,7 @@ export default class Services {
 
   async create(obj) {
     try {
+      console.log('entra a CREATE');
       return await this.repository.create(obj);
     } catch (error) {
       throw new Error(error);

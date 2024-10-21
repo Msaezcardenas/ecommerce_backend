@@ -1,6 +1,7 @@
 import UserService from '../services/user.services.js';
 import { createResponse } from '../utils.js';
 import BaseController from './baseController.js';
+import { UserDTORes } from '../DTO/user.dto.js';
 
 const userService = new UserService();
 
@@ -27,6 +28,20 @@ export default class UserController extends BaseController {
     try {
       const token = await this.service.login(req.body);
       !token ? createResponse(res, 404, token) : createResponse(res, 200, token);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getCurrentUser = async (req, res, next) => {
+    try {
+      const currentUser = await this.service.getCurrentUser(req.body);
+      const userDTO = {
+        first_name: currentUser.first_name,
+        last_name: currentUser.last_name,
+        email: currentUser.email,
+      };
+      res.json(userDTO);
     } catch (error) {
       next(error);
     }
