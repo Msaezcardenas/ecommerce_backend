@@ -32,8 +32,6 @@ export default class CartRepostory extends BaseRepository {
         .populate('products.product')
         .populate('user');
     } catch (error) {
-      console.log(error);
-
       throw new Error(error);
     }
   }
