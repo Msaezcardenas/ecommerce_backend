@@ -2,6 +2,8 @@ import Services from './services.js';
 import CartRepostory from '../repositories/cart.repository.js';
 import ProductRepository from '../repositories/product.repository.js';
 import TicketService from './ticket.services.js';
+import { transport } from '../../servicesEmail.js';
+import { __dirname } from '../utils.js';
 
 const productRepository = new ProductRepository();
 const ticketService = new TicketService();
@@ -102,8 +104,42 @@ export default class CartService extends Services {
           cart.products.find((item) => item.product._id.equals(productId)),
         );
 
+        await this.sendMail(ticket);
+
         return { ticket, unavailableProducts };
+      } else {
+        return 'no hay stock';
       }
-    } catch (error) {}
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async sendMail(ticket) {
+    const { purchase, amount } = ticket;
+    try {
+      await transport.sendMail({
+        from: 'Ticket de Compra <msaezcardenas@gmail.com>',
+        to: `${purchase}`,
+        subject: 'Compra Exitosa!',
+        html: `
+        <div> 
+            <p> Tu compra fue exitosa </p>
+            <p> Total: ${amount} </p>
+            <img src="cid:vegan-felino" width="200" height="200" />
+        </div>
+    `,
+        attachments: [
+          {
+            filename: 'logo-vegan-felino.png',
+            path: __dirname + '/images/logo-vegan-felino.png',
+            cid: 'vegan-felino',
+          },
+        ],
+      });
+      return 'mensaje enviado!';
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }
