@@ -1,11 +1,9 @@
 import Services from './services.js';
 import CartRepostory from '../repositories/cart.repository.js';
 import ProductRepository from '../repositories/product.repository.js';
-import TicketRepository from '../repositories/ticket.repository.js';
 import TicketService from './ticket.services.js';
 
 const productRepository = new ProductRepository();
-const ticketRepository = new TicketRepository();
 const ticketService = new TicketService();
 const cartRepository = new CartRepostory();
 
@@ -52,11 +50,10 @@ export default class CartService extends Services {
     const cartUpdated = await this.repository.getPopulatedCartById(cid, cartFinded);
     return cartUpdated;
   }
+
   async purchase(cid) {
     try {
-      console.log('purchase');
       const cart = await this.repository.getPopulatedCartById(cid);
-      console.log(cart);
 
       if (!cart) {
         throw new Error('Carrito no encontrado');
@@ -66,12 +63,9 @@ export default class CartService extends Services {
 
       // 2. Recorrer productos del carrito y verificar el stock
       for (const item of cart.products) {
-        console.log('ingresa a for');
+        const product = item.product;
+        const quantity = item.quantity;
 
-        const product = item.product; // Producto desde la base de datos
-        const quantity = item.quantity; // Cantidad en el carrito
-
-        console.log(product.stock);
         if (product.stock >= quantity) {
           // 3. Si hay stock suficiente, agregar a la lista de productos comprados
           productsToPurchase.push({
@@ -80,12 +74,10 @@ export default class CartService extends Services {
             price: product.price,
           });
           // Restar la cantidad del stock
-          product.stock + quantity;
+          product.stock -= quantity;
 
-          const updatedProduct = { ...item.product, stock: product.stock + quantity };
+          const updatedProduct = { ...item.product, stock: product.stock };
           await productRepository.update(item.product.id, updatedProduct);
-
-          // await productRepository.update(item.product); // Guardar el producto con el stock actualizado
         } else {
           // 4. Si no hay suficiente stock, agregar a la lista de productos no disponibles
           unavailableProducts.push(product._id);
@@ -94,26 +86,21 @@ export default class CartService extends Services {
 
       // Generar ticket si hay productos comprados
       if (productsToPurchase.length > 0) {
-        console.log(productsToPurchase);
-
         const totalAmount = productsToPurchase.reduce(
           (acc, item) => acc + item.price * item.quantity,
           0,
         );
-        console.log(totalAmount);
 
         // Llamar al servicio de tickets para crear el ticket
         const ticket = await ticketService.createTicket({
           amount: totalAmount,
-          purchaser: cart.user.email, // Asociar el email del usuario al ticket
+          purchaser: cart.user.email,
         });
-        console.log({ ticket });
 
         // Filtrar los productos que no pudieron comprarse del carrito
         cart.products = unavailableProducts.map((productId) =>
           cart.products.find((item) => item.product._id.equals(productId)),
         );
-        console.log(cart);
 
         return { ticket, unavailableProducts };
       }

@@ -4,7 +4,7 @@ const ticketSchema = new Schema({
   code: String,
   purchase_datetime: Date,
   amount: Number,
-  purchaser: String, // correo del usuario asociado al carrito
+  purchaser: String,
 });
 
 export const TicketModel = model('ticket', ticketSchema);

@@ -12,10 +12,7 @@ export default class TicketService extends Services {
   async createTicket(purchaseData) {
     try {
       const { amount, purchaser } = purchaseData;
-
-      // Generar el código único para el ticket
       const code = generateUniqueCode();
-      console.log({ code });
 
       // Crear el ticket con los datos proporcionados
       const ticket = {
@@ -24,9 +21,6 @@ export default class TicketService extends Services {
         amount,
         purchaser,
       };
-
-      console.log(ticket);
-
       await this.repository.create(ticket);
       return ticket;
     } catch (error) {
